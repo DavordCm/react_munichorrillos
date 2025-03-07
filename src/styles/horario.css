@@ -1,0 +1,74 @@
+.container {
+  text-align: center;
+  padding: 15px; /* Reducido el padding */
+}
+
+h2 {
+  margin-bottom: 15px; /* Menos espacio debajo del título */
+}
+
+.tabla {
+  width: 90%; /* Reducir el ancho */
+  border-collapse: collapse;
+  margin-bottom: 10px; /* Menos espacio debajo */
+}
+
+.tabla th, .tabla td {
+  border: 1px solid #ddd;
+  padding: 6px; /* Reducir el padding */
+  text-align: center;
+  font-size: 13px; /* Reducir el tamaño de fuente */
+}
+
+.tabla th {
+  background-color: #f4f4f4;
+}
+
+.btn {
+  padding: 6px 10px; /* Reducido el padding */
+  margin: 3px; /* Menos espacio entre botones */
+  border: none;
+  cursor: pointer;
+  border-radius: 4px; /* Menos curvatura */
+  font-size: 12px; /* Reducir el tamaño de fuente */
+}
+
+.btn.editar {
+  background-color: #ffcc00;
+  color: black;
+}
+
+.btn.eliminar {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+.btn.agregar {
+  background-color: #4CAF50;
+  border-radius: 4px;
+  color: white;
+  padding: 5px 10px;
+  min-width: 100px; /* Reducido el ancho mínimo */
+  font-size: 14px; /* Tamaño de fuente más pequeño */
+}
+
+.btn-flecha {
+  background: none;
+  border: none;
+  font-size: 0.9rem; /* Reducido el tamaño de fuente */
+  cursor: pointer;
+  margin-right: 3px;
+  color: #333;
+  padding: 3px 6px; /* Reducido el padding */
+  width: 30px; /* Hacer el botón más pequeño */
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.btn-flecha:hover {
+  color: #000;
+  background: rgba(0, 0, 0, 0.1);
+}

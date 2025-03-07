@@ -1,0 +1,99 @@
+.menu {
+  background-color: #004080;
+  padding: 10px 0;
+}
+
+.menu-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.logo-img {
+  height: 50px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links li {
+  position: relative;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 10px;
+}
+
+.nav-links a:hover {
+  color: #ffcc00;
+}
+
+/* Submenú de Municipalidad */
+.dropdown {
+  position: relative;
+}
+
+.submenu-container {
+  position: absolute;
+  left: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  display: flex;
+  gap: 20px;
+  width: 350px;
+  z-index: 10;
+}
+
+.submenu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.submenu li {
+  padding: 5px 0;
+}
+
+.submenu a {
+  color: #004080;
+  font-weight: bold;
+}
+
+.submenu a:hover {
+  color: #ff5733;
+}
+
+/* Caja de horarios */
+.horario-box {
+  background: #f8f8f8;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  width: 150px;
+}
+
+.horario-box h4 {
+  margin: 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.horario-tabla {
+  width: 100%;
+  font-size: 12px;
+  border-collapse: collapse;
+}
+
+.horario-tabla td {
+  padding: 3px;
+  border-bottom: 1px solid #ddd;
+}
