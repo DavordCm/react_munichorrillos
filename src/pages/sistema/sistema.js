@@ -9,12 +9,19 @@ const Sistema = () => {
     { descripcion: 'CE', numeroIdentificacion: '12' },
   ]);
 
+  const agregarTipoDocumento = () => {
+    const nuevoTipo = { descripcion: 'Carnet de Extranjería', numeroIdentificacion: '12' };
+    setTiposDocumento([...tiposDocumento, nuevoTipo]); 
+  };
+
   return (
     <div className="sistema-container">
       <h1>Sistema</h1>
       <div className="tipos-documento-container">
         <h1>Mantenimiento de Tipos de Documento</h1>
-        <button className="agregar-button">Agregar</button>
+        <button className="agregar-button" onClick={agregarTipoDocumento}>
+          Agregar
+        </button>
         <table>
           <thead>
             <tr>

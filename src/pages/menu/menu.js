@@ -3,16 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import "../../styles/menu.css";
 
 const Menu = () => {
-  const [showMunicipalidad, setShowMunicipalidad] = useState(false);
-  const navigate = useNavigate();
+  const [showMunicipalidad, setShowMunicipalidad] = useState(false); //Para mejorar la visibilidad del submenu municipalidad
+  const navigate = useNavigate(); //para redirigir al usuario a otras páginas.
 
   // Función para manejar el evento del botón "Salir"
   const handleSalir = () => {
     // Limpiar el almacenamiento (si usas almacenamiento local, por ejemplo)
     localStorage.removeItem("authToken");  // Si usas un token de autenticación
-
-    // Redirigir a la página de login
-    navigate("/login");
+    navigate("/login"); //Si el estado showMunicipalidad es verdadero, mostrar el submenú
   };
 
   return (
@@ -36,7 +34,7 @@ const Menu = () => {
             onClick={(e) => e.stopPropagation()}
           >
             <span>Municipalidad</span>
-            {showMunicipalidad && (
+            {showMunicipalidad && (   //Si el estado showMunicipalidad es verdadero, mostrar el submenú
               <div
                 className="submenu-container"
                 onClick={(e) => e.stopPropagation()}
