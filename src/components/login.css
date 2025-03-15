@@ -49,6 +49,19 @@ button:hover {
   text-decoration: none;
 }
 
+.register-link {
+  color: #007bff;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: underline;
+  margin-top: 10px;
+}
+
+.register-link:hover {
+  color: #0056b3;
+  text-decoration: none;
+}
+
 .validation-message {
   margin-top: 10px;
   font-weight: bold;
@@ -133,4 +146,11 @@ button:hover {
   border: none;
   cursor: pointer;
   border-radius: 5px;
+}
+
+/* Estilos para el modal de términos y condiciones */
+.terms-modal {
+  text-align: left;
+  max-height: 400px;
+  overflow-y: auto;
 }
