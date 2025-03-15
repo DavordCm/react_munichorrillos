@@ -1,0 +1,33 @@
+.register-container {
+    width: 300px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .register-container input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 14px;
+  }
+  
+  .success-message {
+    color: green;
+    font-size: 14px;
+  }
+  
+  .login-link {
+    margin-top: 10px;
+    cursor: pointer;
+    color: blue;
+  }
+  
+  .login-link span {
+    font-weight: bold;
+  }
+  
