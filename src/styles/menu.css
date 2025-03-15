@@ -35,12 +35,13 @@
   color: #ffcc00;
 }
 
-/* Submenú de Municipalidad */
+/* Submenú General */
 .dropdown {
   position: relative;
 }
 
-.submenu-container {
+.submenu-container,
+.sistema-submenu-container {
   position: absolute;
   left: 0;
   background: white;
@@ -49,26 +50,30 @@
   padding: 10px;
   display: flex;
   gap: 20px;
-  width: 350px;
+  width: 250px;
   z-index: 10;
 }
 
-.submenu {
+.submenu,
+.sistema-submenu {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.submenu li {
+.submenu li,
+.sistema-submenu li {
   padding: 5px 0;
 }
 
-.submenu a {
+.submenu a,
+.sistema-submenu a {
   color: #004080;
   font-weight: bold;
 }
 
-.submenu a:hover {
+.submenu a:hover,
+.sistema-submenu a:hover {
   color: #ff5733;
 }
 
