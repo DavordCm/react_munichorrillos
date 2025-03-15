@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
-
+//CAMBIOS DE LOGIN
 const Login = () => {
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
