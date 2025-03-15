@@ -31,7 +31,7 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (user === "admin" && password === "1234") {
+    if (user === "Admin" && password === "1234") {
       localStorage.setItem("auth", "true");
       setIsValid(true);
       setTimeout(() => navigate("/menu"), 1000);
