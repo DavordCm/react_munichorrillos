@@ -76,7 +76,7 @@ const Menu = () => {
                 <ul className="submenu">
                   <li><Link to="/infracciones">Infracciones</Link></li>
                   <li><Link to="/documentos">Documentos</Link></li>
-                  <li><Link to="/personal-adm">Personal ADM</Link></li>
+                  <li><Link to="/PersonalAdm">Personal ADM</Link></li>
                   <li><Link to="/areas">Áreas</Link></li>
                 </ul>
               </div>

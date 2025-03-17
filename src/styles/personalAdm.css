@@ -1,0 +1,111 @@
+.contenedor {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f9f9f9;
+}
+
+/* Botón Azul - Principal */
+.btn-azul {
+    background-color: #1976d2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+}
+
+.btn-azul:hover {
+    background-color: #115293;
+    transform: scale(1.05);
+}
+
+/* Botón Verde - Editar */
+.btn-verde {
+    background-color: #2e7d32;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    cursor: pointer;
+    margin-right: 5px;
+    font-size: 14px;
+    border-radius: 3px;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+}
+
+.btn-verde:hover {
+    background-color: #1b5e20;
+    transform: scale(1.05);
+}
+
+/* Botón Rojo - Eliminar */
+.btn-rojo {
+    background-color: #d32f2f;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 3px;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+}
+
+.btn-rojo:hover {
+    background-color: #9a0007;
+    transform: scale(1.05);
+}
+
+/* Contenedor de la tabla */
+.tabla-container {
+    margin-top: 15px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+/* Tamaño reducido de la tabla */
+.small-table {
+    width: 100%;
+    font-size: 14px;
+    border-collapse: collapse;
+}
+
+/* Estilos para encabezados y celdas */
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+/* Fondo para encabezados */
+th {
+    background-color: #f0f0f0;
+    font-size: 15px;
+}
+
+/* Animación en hover */
+.motion-tr {
+    background: white;
+    transition: background 0.3s ease-in-out;
+}
+
+.motion-tr:hover {
+    background: #e8f4ff;
+}
+
+/* Estilos para el modal */
+.modal-box {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 300px;
+    margin: auto;
+    margin-top: 10%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
