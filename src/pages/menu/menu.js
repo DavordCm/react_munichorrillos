@@ -1,96 +1,79 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "../../styles/menu.css";
+import { AppBar, Toolbar, Button, Menu, MenuItem, IconButton } from "@mui/material";
+import { ExpandMore, Logout } from "@mui/icons-material";
+import "../../styles/menu.css"; // Importamos los estilos externos
 
-const Menu = () => {
-  const [showMunicipalidad, setShowMunicipalidad] = useState(false);
-  const [showSistema, setShowSistema] = useState(false);
+const MenuComponent = () => {
   const navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorElSistema, setAnchorElSistema] = useState(null);
 
   const handleSalir = () => {
     localStorage.removeItem("auth");
     localStorage.removeItem("authToken");
-    navigate("/login", { replace: true }); // Evita que el usuario regrese con "Atrás"
+    navigate("/login", { replace: true });
   };
-  
-  
-
 
   return (
-    <nav className="menu">
-      <div className="menu-container">
+    <AppBar position="static" className="menu">
+      <Toolbar className="menu-container">
         {/* LOGO */}
-        <div className="logo">
-          <img
-            src={`${process.env.PUBLIC_URL}/logoMuni.png`}
-            alt="Municipalidad de Chorrillos"
-            className="logo-img"
-          />
-        </div>
+        <img
+          src={`${process.env.PUBLIC_URL}/logoMuni.png`}
+          alt="Municipalidad de Chorrillos"
+          className="logo-img"
+        />
 
-        {/* MENÚ PRINCIPAL */}
-        <ul className="nav-links">
-          <li>
-            <Link to="/">Inicio</Link>
-          </li>
+        {/* MUNICIPALIDAD - Menú desplegable */}
+        <Button
+          color="inherit"
+          endIcon={<ExpandMore />}
+          onClick={(e) => setAnchorEl(e.currentTarget)}
+        >
+          Municipalidad
+        </Button>
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={() => setAnchorEl(null)}
+        >
+          <MenuItem component={Link} to="/horarios">Horarios</MenuItem>
+          <MenuItem component={Link} to="/gruas">Gruas</MenuItem>
+          <MenuItem component={Link} to="/depositos">Depósitos</MenuItem>
+          <MenuItem component={Link} to="/empleados">Empleados</MenuItem>
+        </Menu>
 
-          {/* MUNICIPALIDAD */}
-          <li
-            className="dropdown"
-            onMouseEnter={() => setShowMunicipalidad(true)}
-            onMouseLeave={() => setShowMunicipalidad(false)}
-          >
-            <span>Municipalidad</span>
-            {showMunicipalidad && (
-              <div className="submenu-container">
-                <ul className="submenu">
-                  <li><Link to="/horarios">Horarios</Link></li>
-                  <li><Link to="/gruas">Gruas</Link></li>
-                  <li><Link to="/depositos">Depósitos</Link></li>
-                  <li><Link to="/empleados">Empleados</Link></li>
-                </ul>
-              </div>
-            )}
-          </li>
+        <Button color="inherit" component={Link} to="/deposito">Depósito ADM</Button>
+        <Button color="inherit" component={Link} to="/fiscalizacion">Fiscalización</Button>
+        <Button color="inherit" component={Link} to="/cajas">Cajas</Button>
 
-          <li>
-            <Link to="/deposito">Depósito ADM</Link>
-          </li>
-          <li>
-            <Link to="/fiscalizacion">Fiscalización</Link>
-          </li>
-          <li>
-            <Link to="/cajas">Cajas</Link>
-          </li>
-
-
-          {/* SISTEMA */}
-          <li
-            className="dropdown"
-            onMouseEnter={() => setShowSistema(true)}
-            onMouseLeave={() => setShowSistema(false)}
-          >
-            <span>Sistema</span>
-            {showSistema && (
-              <div className="submenu-container">
-                <ul className="submenu">
-                  <li><Link to="/infracciones">Infracciones</Link></li>
-                  <li><Link to="/documentos">Documentos</Link></li>
-                  <li><Link to="/PersonalAdm">Personal ADM</Link></li>
-                  <li><Link to="/areas">Áreas</Link></li>
-                </ul>
-              </div>
-            )}
-          </li>
-        </ul>
+        {/* SISTEMA - Menú desplegable */}
+        <Button
+          color="inherit"
+          endIcon={<ExpandMore />}
+          onClick={(e) => setAnchorElSistema(e.currentTarget)}
+        >
+          Sistema
+        </Button>
+        <Menu
+          anchorEl={anchorElSistema}
+          open={Boolean(anchorElSistema)}
+          onClose={() => setAnchorElSistema(null)}
+        >
+          <MenuItem component={Link} to="/infracciones">Infracciones</MenuItem>
+          <MenuItem component={Link} to="/documentos">Documentos</MenuItem>
+          <MenuItem component={Link} to="/PersonalAdm">Personal ADM</MenuItem>
+          <MenuItem component={Link} to="/areas">Áreas</MenuItem>
+        </Menu>
 
         {/* BOTÓN DE SALIR */}
-        <div className="login">
-          <button onClick={handleSalir}>Salir</button>
-        </div>
-      </div>
-    </nav>
+        <IconButton color="inherit" onClick={handleSalir}>
+          <Logout />
+        </IconButton>
+      </Toolbar>
+    </AppBar>
   );
 };
 
-export default Menu;
+export default MenuComponent;

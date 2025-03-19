@@ -1,104 +1,41 @@
 .menu {
   background-color: #004080;
-  padding: 10px 0;
 }
 
 .menu-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 10px 20px;
 }
 
 .logo-img {
-  height: 50px;
+  width: 200px;
+  margin-right: 450px;
 }
 
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 20px;
-}
-
-.nav-links li {
-  position: relative;
-}
-
-.nav-links a {
+.menu button {
   color: white;
-  text-decoration: none;
   font-size: 16px;
-  padding: 10px;
 }
 
-.nav-links a:hover {
+.menu button:hover {
   color: #ffcc00;
 }
 
-/* Submenú General */
-.dropdown {
-  position: relative;
-}
-
-.submenu-container,
-.sistema-submenu-container {
-  position: absolute;
-  left: 0;
+/* Estilos de los menús desplegables */
+.MuiMenu-paper {
   background: white;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  padding: 10px;
-  display: flex;
-  gap: 20px;
-  width: 250px;
-  z-index: 10;
 }
 
-.submenu,
-.sistema-submenu {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.submenu li,
-.sistema-submenu li {
-  padding: 5px 0;
-}
-
-.submenu a,
-.sistema-submenu a {
+.MuiMenuItem-root {
   color: #004080;
   font-weight: bold;
 }
 
-.submenu a:hover,
-.sistema-submenu a:hover {
-  color: #ff5733;
-}
-
-/* Caja de horarios */
-.horario-box {
-  background: #f8f8f8;
-  padding: 10px;
-  border-radius: 8px;
-  text-align: center;
-  width: 150px;
-}
-
-.horario-box h4 {
-  margin: 0;
-  font-size: 14px;
-  color: #333;
-}
-
-.horario-tabla {
-  width: 100%;
-  font-size: 12px;
-  border-collapse: collapse;
-}
-
-.horario-tabla td {
-  padding: 3px;
-  border-bottom: 1px solid #ddd;
+.MuiMenuItem-root:hover {
+  background: #ffcc00;
+  color: white;
 }
