@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AppBar, Toolbar, Button, Menu, MenuItem, IconButton } from "@mui/material";
 import { ExpandMore, Logout } from "@mui/icons-material";
-import "../../styles/menu.css"; // Importamos los estilos externos
+import "../../styles/menu.css";
 
 const MenuComponent = () => {
   const navigate = useNavigate();

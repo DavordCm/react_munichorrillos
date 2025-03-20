@@ -1,0 +1,29 @@
+.infracciones-container {
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+.back-button {
+  color: #333;
+}
+
+.button-group {
+  margin-bottom: 10px;
+}
+
+.tabla-container {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.MuiTableCell-root {
+  text-align: center;
+}

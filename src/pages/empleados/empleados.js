@@ -1,323 +1,199 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import '../../styles/empleado.css';
+import React, { useState } from "react";
+import { 
+  Button, Table, TableBody, TableCell, TableContainer, TableHead, 
+  TableRow, Paper, Typography, Box, Dialog, DialogActions, DialogContent, 
+  DialogTitle, TextField 
+} from "@mui/material";
+import { ArrowBack, Add } from "@mui/icons-material";
+import "../../styles/empleado.css";
+
 
 const Empleados = () => {
-  const navigate = useNavigate();
   const [empleados, setEmpleados] = useState([
-    {
-      nombre: 'Adrian',
-      apellidoPaterno: 'Rojas',
-      apellidoMaterno: 'Zevallos',
-      email: 'adrianrojas100@gmail.com',
-      telefono: '982234770',
-      direccion: 'Villa El salvador',
-      fechaIngreso: '20/07/2024 00:00:00',
-      estadoCivil: 'Soltero',
-      nroIdentidad: '70311575',
-      tipoDocumento: 'DN',
-      isEditing: false,
-    },
-    {
-      nombre: 'Joaquin',
-      apellidoPaterno: 'Rojas',
-      apellidoMaterno: 'Zevallos',
-      email: 'Joaquim@hotmail.com',
-      telefono: '924279112',
-      direccion: 'Villa El salvador',
-      fechaIngreso: '21/07/2024 00:00:00',
-      estadoCivil: 'Casado',
-      nroIdentidad: '1586138',
-      tipoDocumento: 'DN',
-      isEditing: false,
-    },
+    { id: 1, nombre: "Juan", apellidoPaterno: "Pérez", apellidoMaterno: "Gómez", email: "juan@example.com", telefono: "123456789", direccion: "Calle 123", fechaIngreso: "2024-01-10", activo: true, estadoCivil: "Soltero", nroIdentidad: "12345678", tipoDocumento: "DNI" },
+    { id: 2, nombre: "María", apellidoPaterno: "Rodríguez", apellidoMaterno: "Fernández", email: "maria@example.com", telefono: "987654321", direccion: "Avenida 456", fechaIngreso: "2023-07-20", activo: false, estadoCivil: "Casada", nroIdentidad: "87654321", tipoDocumento: "DNI" },
   ]);
 
-  const [nuevoEmpleado, setNuevoEmpleado] = useState({
-    nombre: '',
-    apellidoPaterno: '',
-    apellidoMaterno: '',
-    email: '',
-    telefono: '',
-    direccion: '',
-    fechaIngreso: '',
-    estadoCivil: 'Soltero',
-    nroIdentidad: '',
-    tipoDocumento: 'DN',
+  const [open, setOpen] = useState(false);
+  const [editingEmpleado, setEditingEmpleado] = useState(null);
+  const [formData, setFormData] = useState({
+    id: "",
+    nombre: "",
+    apellidoPaterno: "",
+    apellidoMaterno: "",
+    email: "",
+    telefono: "",
+    direccion: "",
+    fechaIngreso: "",
+    activo: false,
+    estadoCivil: "",
+    nroIdentidad: "",
+    tipoDocumento: ""
   });
 
-  const [showForm, setShowForm] = useState(false);
-
-  const handleAgregarEmpleado = () => { // Agregar nuevo empleado al estado
-    setEmpleados([...empleados, { ...nuevoEmpleado, isEditing: false }]);
-    setNuevoEmpleado({
-      nombre: '',
-      apellidoPaterno: '',
-      apellidoMaterno: '',
-      email: '',
-      telefono: '',
-      direccion: '',
-      fechaIngreso: '',
-      estadoCivil: 'Soltero',
-      nroIdentidad: '',
-      tipoDocumento: 'DN',
-    });
-    setShowForm(false);
+  // Manejar cambios en los inputs
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
-  const handleActualizarEmpleado = (index, campo, valor) => {
-    const empleadosActualizados = empleados.map((empleado, i) => {
-      if (i === index) {
-        return { ...empleado, [campo]: valor };
-      }
-      return empleado;
-    });
-    setEmpleados(empleadosActualizados);
+  // Abrir modal para agregar o editar
+  const handleOpen = (empleado = null) => {
+    if (empleado) {
+      setEditingEmpleado(empleado);
+      setFormData(empleado);
+    } else {
+      setEditingEmpleado(null);
+      setFormData({
+        id: empleados.length + 1,
+        nombre: "",
+        apellidoPaterno: "",
+        apellidoMaterno: "",
+        email: "",
+        telefono: "",
+        direccion: "",
+        fechaIngreso: "",
+        activo: false,
+        estadoCivil: "",
+        nroIdentidad: "",
+        tipoDocumento: ""
+      });
+    }
+    setOpen(true);
   };
 
-  const handleEditarEmpleado = (index) => {
-    const empleadosActualizados = empleados.map((empleado, i) => {
-      if (i === index) {
-        return { ...empleado, isEditing: !empleado.isEditing };
-      }
-      return empleado;
-    });
-    setEmpleados(empleadosActualizados);
+  // Guardar nuevo empleado o editar existente
+  const handleSave = () => {
+    if (editingEmpleado) {
+      setEmpleados(
+        empleados.map((emp) => (emp.id === editingEmpleado.id ? formData : emp))
+      );
+    } else {
+      setEmpleados([...empleados, formData]);
+    }
+    setOpen(false);
   };
 
-  const handleEliminarEmpleado = (index) => {
-    const empleadosActualizados = empleados.filter((_, i) => i !== index);
-    setEmpleados(empleadosActualizados);
+  const handleDelete = (id) => {
+    setEmpleados(empleados.filter((empleado) => empleado.id !== id));
   };
 
-  const handleVolver = () => {
-    navigate('/menu');
-
-  };
   return (
     <div className="empleados-container">
-      <div className="empleados-header">
-        <h1>Gestión de Empleados</h1>
-        <div className="empleados-buttons">
-          <button className="back-button" onClick={handleVolver}>
-            &#8592;
-          </button>
-          <button className="add-empleado-button" onClick={() => setShowForm(true)}>
-            Agregar Empleado
-          </button>
-        </div>
-      </div>
-      {showForm && (
-        <div className="nuevo-empleado-form">
-          <input
-            type="text"
-            placeholder="Nombre"
-            value={nuevoEmpleado.nombre}
-            onChange={(e) => setNuevoEmpleado({ ...nuevoEmpleado, nombre: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Apellido Paterno"
-            value={nuevoEmpleado.apellidoPaterno}
-            onChange={(e) => setNuevoEmpleado({ ...nuevoEmpleado, apellidoPaterno: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Apellido Materno"
-            value={nuevoEmpleado.apellidoMaterno}
-            onChange={(e) => setNuevoEmpleado({ ...nuevoEmpleado, apellidoMaterno: e.target.value })}
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            value={nuevoEmpleado.email}
-            onChange={(e) => setNuevoEmpleado({ ...nuevoEmpleado, email: e.target.value })}
-          />
-          <input
-            type="tel"
-            placeholder="Teléfono"
-            value={nuevoEmpleado.telefono}
-            onChange={(e) => setNuevoEmpleado({ ...nuevoEmpleado, telefono: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Dirección"
-            value={nuevoEmpleado.direccion}
-            onChange={(e) => setNuevoEmpleado({ ...nuevoEmpleado, direccion: e.target.value })}
-          />
-          <input
-            type="datetime-local"
-            value={nuevoEmpleado.fechaIngreso}
-            onChange={(e) => setNuevoEmpleado({ ...nuevoEmpleado, fechaIngreso: e.target.value })}
-          />
-          <select
-            value={nuevoEmpleado.estadoCivil}
-            onChange={(e) => setNuevoEmpleado({ ...nuevoEmpleado, estadoCivil: e.target.value })}
-          >
-            <option value="Soltero">Soltero</option>
-            <option value="Casado">Casado</option>
-          </select>
-          <input
-            type="text"
-            placeholder="Nro de Identidad"
-            value={nuevoEmpleado.nroIdentidad}
-            onChange={(e) => setNuevoEmpleado({ ...nuevoEmpleado, nroIdentidad: e.target.value })}
-          />
-          <select
-            value={nuevoEmpleado.tipoDocumento}
-            onChange={(e) => setNuevoEmpleado({ ...nuevoEmpleado, tipoDocumento: e.target.value })}
-          >
-            <option value="DN">DN</option>
-            <option value="CE">CE</option>
-          </select>
-          <button onClick={handleAgregarEmpleado}>Agregar</button>
-          <button onClick={() => setShowForm(false)}>Cancelar</button>
-        </div>
-      )}
+      <Typography variant="h4" gutterBottom className="empleados-header">
+        Gestión de Empleados
+      </Typography>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Apellido Paterno</th>
-            <th>Apellido Materno</th>
-            <th>Email</th>
-            <th>Teléfono</th>
-            <th>Dirección</th>
-            <th>Fecha de Ingreso</th>
-            <th>Estado Civil</th>
-            <th>Nro de Identidad</th>
-            <th>Tipo de Documento</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {empleados.map((empleado, index) => (
-            <tr key={index}>
-              <td>
-                {empleado.isEditing ? (
-                  <input
-                    type="text"
-                    value={empleado.nombre}
-                    onChange={(e) => handleActualizarEmpleado(index, 'nombre', e.target.value)}
-                  />
-                ) : (
-                  empleado.nombre
-                )}
-              </td>
-              <td>
-                {empleado.isEditing ? (
-                  <input
-                    type="text"
-                    value={empleado.apellidoPaterno}
-                    onChange={(e) => handleActualizarEmpleado(index, 'apellidoPaterno', e.target.value)}
-                  />
-                ) : (
-                  empleado.apellidoPaterno
-                )}
-              </td>
-              <td>
-                {empleado.isEditing ? (
-                  <input
-                    type="text"
-                    value={empleado.apellidoMaterno}
-                    onChange={(e) => handleActualizarEmpleado(index, 'apellidoMaterno', e.target.value)}
-                  />
-                ) : (
-                  empleado.apellidoMaterno
-                )}
-              </td>
-              <td>
-                {empleado.isEditing ? (
-                  <input
-                    type="email"
-                    value={empleado.email}
-                    onChange={(e) => handleActualizarEmpleado(index, 'email', e.target.value)}
-                  />
-                ) : (
-                  empleado.email
-                )}
-              </td>
-              <td>
-                {empleado.isEditing ? (
-                  <input
-                    type="tel"
-                    value={empleado.telefono}
-                    onChange={(e) => handleActualizarEmpleado(index, 'telefono', e.target.value)}
-                  />
-                ) : (
-                  empleado.telefono
-                )}
-              </td>
-              <td>
-                {empleado.isEditing ? (
-                  <input
-                    type="text"
-                    value={empleado.direccion}
-                    onChange={(e) => handleActualizarEmpleado(index, 'direccion', e.target.value)}
-                  />
-                ) : (
-                  empleado.direccion
-                )}
-              </td>
-              <td>
-                {empleado.isEditing ? (
-                  <input
-                    type="datetime-local"
-                    value={empleado.fechaIngreso}
-                    onChange={(e) => handleActualizarEmpleado(index, 'fechaIngreso', e.target.value)}
-                  />
-                ) : (
-                  empleado.fechaIngreso
-                )}
-              </td>
-              <td>
-                {empleado.isEditing ? (
-                  <select
-                    value={empleado.estadoCivil}
-                    onChange={(e) => handleActualizarEmpleado(index, 'estadoCivil', e.target.value)}
+      {/* Botones de Añadir y Regresar */}
+      <Box display="flex" justifyContent="space-between" mb={2}>
+        <Button 
+          variant="contained" 
+          color="primary" 
+          startIcon={<Add />}
+          onClick={() => handleOpen()} // Abre el modal para añadir empleado
+        >
+          Añadir Empleado
+        </Button>
+
+        <Button 
+          startIcon={<ArrowBack />} 
+          onClick={() => window.history.back()}
+        >
+          Regresar
+        </Button>
+      </Box>
+
+      {/* Tabla de empleados */}
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Nombre</TableCell>
+              <TableCell>Apellido Paterno</TableCell>
+              <TableCell>Apellido Materno</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Teléfono</TableCell>
+              <TableCell>Acciones</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {empleados.map((empleado) => (
+              <TableRow key={empleado.id}>
+                <TableCell>{empleado.id}</TableCell>
+                <TableCell>{empleado.nombre}</TableCell>
+                <TableCell>{empleado.apellidoPaterno}</TableCell>
+                <TableCell>{empleado.apellidoMaterno}</TableCell>
+                <TableCell>{empleado.email}</TableCell>
+                <TableCell>{empleado.telefono}</TableCell>
+                <TableCell>
+                  <Button 
+                    color="secondary" 
+                    onClick={() => handleOpen(empleado)} // Abre modal para editar
                   >
-                    <option value="Soltero">Soltero</option>
-                    <option value="Casado">Casado</option>
-                  </select>
-                ) : (
-                  empleado.estadoCivil
-                )}
-              </td>
-              <td>
-                {empleado.isEditing ? (
-                  <input
-                    type="text"
-                    value={empleado.nroIdentidad}
-                    onChange={(e) => handleActualizarEmpleado(index, 'nroIdentidad', e.target.value)}
-                  />
-                ) : (
-                  empleado.nroIdentidad
-                )}
-              </td>
-              <td>
-                {empleado.isEditing ? (
-                  <select
-                    value={empleado.tipoDocumento}
-                    onChange={(e) => handleActualizarEmpleado(index, 'tipoDocumento', e.target.value)}
+                    Editar
+                  </Button>
+                  <Button 
+                    color="error" 
+                    onClick={() => handleDelete(empleado.id)}
                   >
-                    <option value="DN">DN</option>
-                    <option value="CE">CE</option>
-                  </select>
-                ) : (
-                  empleado.tipoDocumento
-                )}
-              </td>
-              <td>
-                <button onClick={() => handleEditarEmpleado(index)}>
-                  {empleado.isEditing ? 'Guardar' : 'Editar'}
-                </button>
-                <button onClick={() => handleEliminarEmpleado(index)}>Eliminar</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                    Eliminar
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      {/* Modal para añadir/editar empleado */}
+      <Dialog open={open} onClose={() => setOpen(false)}>
+        <DialogTitle>{editingEmpleado ? "Editar Empleado" : "Añadir Empleado"}</DialogTitle>
+        <DialogContent>
+          <TextField 
+            fullWidth margin="dense" label="Nombre" name="nombre" 
+            value={formData.nombre} onChange={handleChange} 
+          />
+          <TextField 
+            fullWidth margin="dense" label="Apellido Paterno" name="apellidoPaterno" 
+            value={formData.apellidoPaterno} onChange={handleChange} 
+          />
+          <TextField 
+            fullWidth margin="dense" label="Apellido Materno" name="apellidoMaterno" 
+            value={formData.apellidoMaterno} onChange={handleChange} 
+          />
+          <TextField 
+            fullWidth margin="dense" label="Email" name="email" 
+            value={formData.email} onChange={handleChange} 
+          />
+          <TextField 
+            fullWidth margin="dense" label="Teléfono" name="telefono" 
+            value={formData.telefono} onChange={handleChange} 
+          />
+          <TextField 
+            fullWidth margin="dense" label="Dirección" name="direccion" 
+            value={formData.direccion} onChange={handleChange} 
+          />
+          <TextField 
+            fullWidth margin="dense" label="Fecha Ingreso" name="fechaIngreso" 
+            value={formData.fechaIngreso} onChange={handleChange} type="date"
+          />
+          <TextField 
+            fullWidth margin="dense" label="Número de Identidad" name="nroIdentidad" 
+            value={formData.nroIdentidad} onChange={handleChange} 
+          />
+          <TextField 
+            fullWidth margin="dense" label="Tipo de Documento" name="tipoDocumento" 
+            value={formData.tipoDocumento} onChange={handleChange} 
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpen(false)}>Cancelar</Button>
+          <Button onClick={handleSave} color="primary">
+            {editingEmpleado ? "Actualizar" : "Guardar"}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

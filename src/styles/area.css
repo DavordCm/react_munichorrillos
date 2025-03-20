@@ -1,0 +1,15 @@
+.container {
+    padding: 20px;
+  }
+  
+  .header-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .back-button {
+    background-color: #ff4081;
+    color: white;
+  }
+  

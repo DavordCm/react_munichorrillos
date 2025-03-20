@@ -8,11 +8,13 @@ import Deposito from "./pages/deposito/deposito.js";
 import Fiscalizacion from "./pages/fiscalizacion/fiscalizacion.js";
 import Cajas from "./pages/cajas/cajas.js";
 import Sistema from "./pages/sistema/sistema.js";
+import Infracciones from ".//pages/infracciones/infracciones.js"
 import Horario from "./pages/horarios/horario.js";
 import Gruas from "./pages/gruas/gruas.js";
 import Empleados from "./pages/empleados/empleados.js";
 import Documentos from "./pages/tipos-documentos/documentos.js";
 import PersonalAdm from "./pages/personalAdm/personalAdm.js";
+import Areas from "./pages/area/area.js"
 
 const PrivateRoute = ({ element }) => {
   return localStorage.getItem("auth") === "true" ? element : <Navigate to="/login" />;
@@ -34,6 +36,8 @@ function App() {
         <Route path="/fiscalizacion" element={<PrivateRoute element={<Fiscalizacion />} />} />
         <Route path="/cajas" element={<PrivateRoute element={<Cajas />} />} />
         <Route path="/sistema" element={<PrivateRoute element={<Sistema />} />} />
+        <Route path="/infracciones" element={<PrivateRoute element={<Infracciones />} />} />
+        <Route path="/areas" element={<PrivateRoute element={<Areas/>} />} />
         <Route path="/documentos" element={<PrivateRoute element={<Documentos />} />} />
         <Route path="/personalAdm" element={<PrivateRoute element={<PersonalAdm />} />} />
       </Routes>
