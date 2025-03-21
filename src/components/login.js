@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, TextField, Box, Typography, Modal, InputAdornment, IconButton } from "@mui/material";
+import { 
+  Button, TextField, Box, Typography, Modal, InputAdornment, IconButton 
+} from "@mui/material";
 import { motion } from "framer-motion";
-import { AccountCircle, Lock, Visibility, VisibilityOff } from "@mui/icons-material";
+import { 
+  AccountCircle, Lock, Visibility, VisibilityOff, Person 
+} from "@mui/icons-material";
 import "../components/login.css";
 
 const Login = () => {
@@ -35,6 +39,10 @@ const Login = () => {
     navigate("/register");
   };
 
+  const handleUserLogin = () => {
+    navigate("/login_user");
+  };
+
   const openModal = (content) => {
     setModalContent(content);
     setModalOpen(true);
@@ -42,7 +50,14 @@ const Login = () => {
 
   return (
     <Box className="login-container">
-      <motion.img src="/MuniChorrillos.png" alt="MuniChorrillos Logo" className="logo" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }} />
+      <motion.img 
+        src="/MuniChorrillos.png" 
+        alt="MuniChorrillos Logo" 
+        className="logo" 
+        initial={{ opacity: 0 }} 
+        animate={{ opacity: 1 }} 
+        transition={{ duration: 1 }} 
+      />
       <Typography variant="h5" gutterBottom>Iniciar Sesión</Typography>
       <form onSubmit={handleLogin}>
         <TextField 
@@ -77,27 +92,56 @@ const Login = () => {
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? <VisibilityOff /> : <Visibility/>}
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
             ),
           }}
         />
-        <Typography className="link" onClick={() => openModal("Recuperación de contraseña")}>¿Olvidaste tu contraseña?</Typography>
-        <Typography className="link" onClick={handleRegister}>¿No tienes una cuenta? Regístrate</Typography>
-        <Button fullWidth variant="contained" color="primary" type="submit" className="login-button">Ingresar</Button>
+        <Typography className="link" onClick={() => openModal("Recuperación de contraseña")}>
+          ¿Olvidaste tu contraseña?
+        </Typography>
+        <Typography className="link" onClick={handleRegister}>
+          ¿No tienes una cuenta? Regístrate
+        </Typography>
+        <Button fullWidth variant="contained" color="primary" type="submit" className="login-button">
+          Ingresar
+        </Button>
+        
+        {/* Botón con icono para "Ingresar como Usuario" */}
+        <Button 
+          fullWidth 
+          variant="outlined" 
+          color="secondary" 
+          onClick={handleUserLogin} 
+          className="login-user-button" 
+          style={{ marginTop: "10px", display: "flex", alignItems: "center", justifyContent: "center" }}
+        >
+          <Person style={{ marginRight: 8 }} />
+          Ingresar como Usuario
+        </Button>
+
       </form>
+      
       {isValid !== null && (
-        <Typography className={isValid ? "success-message" : "error-message"}>{isValid ? "✅ Acceso Correcto. Redirigiendo..." : "❌ Usuario o Contraseña Incorrectos"}</Typography>
+        <Typography className={isValid ? "success-message" : "error-message"}>
+          {isValid ? "✅ Acceso Correcto. Redirigiendo..." : "❌ Usuario o Contraseña Incorrectos"}
+        </Typography>
       )}
+      
       <Box className="terms-box">
         <Typography variant="body2">
           Al iniciar sesión, aceptas nuestros
-          <Typography component="span" className="link" onClick={() => openModal("Términos y Condiciones")}> Términos y Condiciones</Typography>
+          <Typography component="span" className="link" onClick={() => openModal("Términos y Condiciones")}>
+            Términos y Condiciones
+          </Typography>
           y nuestra
-          <Typography component="span" className="link" onClick={() => openModal("Política de Privacidad")}> Política de Privacidad</Typography>.
+          <Typography component="span" className="link" onClick={() => openModal("Política de Privacidad")}>
+            Política de Privacidad
+          </Typography>.
         </Typography>
       </Box>
+
       <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
         <Box className="modal-box">
           <Typography variant="h6">{modalContent}</Typography>

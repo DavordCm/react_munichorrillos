@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./components/login.js";
+import Login_User from "./components/login_user.js"
 import Register from "./components/register.js";
 import Menu from "./pages/menu/menu.js";
 import Municipalidad from "./pages/municipalidad/municipalidad.js";
@@ -26,6 +27,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/login_user" element={<Login_User />} />
         <Route path="/register" element={<Register />} />
         <Route path="/menu" element={<PrivateRoute element={<Menu />} />} />
         <Route path="/municipalidad" element={<PrivateRoute element={<Municipalidad />} />} />

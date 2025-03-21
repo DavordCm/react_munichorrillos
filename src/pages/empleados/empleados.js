@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { 
-  Button, Table, TableBody, TableCell, TableContainer, TableHead, 
-  TableRow, Paper, Typography, Box, Dialog, DialogActions, DialogContent, 
-  DialogTitle, TextField 
+import {
+  Button, Table, TableBody, TableCell, TableContainer, TableHead,
+  TableRow, Paper, Typography, Box, Dialog, DialogActions, DialogContent,
+  DialogTitle, TextField
 } from "@mui/material";
 import { ArrowBack, Add } from "@mui/icons-material";
 import "../../styles/empleado.css";
