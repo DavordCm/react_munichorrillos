@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./components/login.js";
-import Login_User from "./components/login_user.js";
+import Login_User from "./components/loginuser.js";
 import Register from "./components/register.js";
 import Menu from "./pages/menu/menu.js";
 import Municipalidad from "./pages/municipalidad/municipalidad.js";
