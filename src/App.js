@@ -1,21 +1,21 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import Login from "./components/Login.js";
-import LoginUser from "./components/LoginUser.js"; // Cambio aquí
-import Register from "./components/Register.js";
-import Menu from "./pages/menu/Menu.js";
-import Municipalidad from "./pages/municipalidad/Municipalidad.js";
-import Deposito from "./pages/deposito/Deposito.js";
-import Fiscalizacion from "./pages/fiscalizacion/Fiscalizacion.js";
-import Cajas from "./pages/cajas/Cajas.js";
-import Sistema from "./pages/sistema/Sistema.js";
-import Infracciones from "./pages/infracciones/Infracciones.js";
-import Horario from "./pages/horarios/Horario.js";
-import Gruas from "./pages/gruas/Gruas.js";
-import Empleados from "./pages/empleados/Empleados.js";
-import Documentos from "./pages/tipos-documentos/Documentos.js";
-import PersonalAdm from "./pages/personalAdm/PersonalAdm.js";
-import Areas from "./pages/area/Area.js";
+import Login from "./components/login.js";
+import Login_User from "./components/login_user.js";
+import Register from "./components/register.js";
+import Menu from "./pages/menu/menu.js";
+import Municipalidad from "./pages/municipalidad/municipalidad.js";
+import Deposito from "./pages/deposito/deposito.js";
+import Fiscalizacion from "./pages/fiscalizacion/fiscalizacion.js";
+import Cajas from "./pages/cajas/cajas.js";
+import Sistema from "./pages/sistema/sistema.js";
+import Infracciones from "./pages/infracciones/infracciones.js";
+import Horario from "./pages/horarios/horario.js";
+import Gruas from "./pages/gruas/gruas.js";
+import Empleados from "./pages/empleados/empleados.js";
+import Documentos from "./pages/tipos-documentos/documentos.js";
+import PersonalAdm from "./pages/personalAdm/personalAdm.js";
+import Areas from "./pages/area/area.js";
 
 const PrivateRoute = ({ element }) => {
   return localStorage.getItem("auth") === "true" ? element : <Navigate to="/login" />;
@@ -27,7 +27,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/login_user" element={<LoginUser />} /> {/* Cambio aquí */}
+        <Route path="/login_user" element={<Login_User />} /> {/* Cambio aquí */}
         <Route path="/register" element={<Register />} />
         <Route path="/menu" element={<PrivateRoute element={<Menu />} />} />
         <Route path="/municipalidad" element={<PrivateRoute element={<Municipalidad />} />} />

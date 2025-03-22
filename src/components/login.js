@@ -18,7 +18,7 @@ const Login = () => {
   const [modalContent, setModalContent] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  useEffect(() => { // Verifica si el usuario ya está autenticado y lo redirige al menú
     if (localStorage.getItem("auth") === "true") {
       navigate("/menu");
     }
@@ -35,15 +35,17 @@ const Login = () => {
     }
   };
 
-  const handleRegister = () => {
+  const handleRegister = () => {  //Redirige al usuario a la página de registro
+
     navigate("/register");
   };
 
-  const handleUserLogin = () => {
+  const handleUserLogin = () => { //Redirige a la opción de inicio de sesión como usuario estándar
     navigate("/login_user");
   };
 
-  const openModal = (content) => {
+  const openModal = (content) => {  //Muestra un modal con información adicional
+
     setModalContent(content);
     setModalOpen(true);
   };

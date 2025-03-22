@@ -3,14 +3,16 @@ import { useNavigate } from "react-router-dom";
 import "./register.css";
 
 const Register = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({   // Estado para almacenar los datos del formulario
+
     username: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
 
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(null);   // Estado para manejar errores y mensajes de éxito
+
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
@@ -19,15 +21,16 @@ const Register = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e) => {   // Maneja el envío del formulario con validaciones
+
     e.preventDefault();
     
-    if (!formData.username || !formData.email || !formData.password || !formData.confirmPassword) {
+    if (!formData.username || !formData.email || !formData.password || !formData.confirmPassword) { //Verifica que todos los campos estén completos
       setError("Todos los campos son obligatorios.");
       return;
     }
 
-    if (formData.password !== formData.confirmPassword) {
+    if (formData.password !== formData.confirmPassword) { //Verifica que las contraseñas coincidan
       setError("Las contraseñas no coinciden.");
       return;
     }
