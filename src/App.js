@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./components/login.js";
-import LoginUser from "./components/loginuser.js"; // Cambia esto
+import LoginUser from "./components/loginuser.js";
 import Register from "./components/register.js";
 import Menu from "./pages/menu/menu.js";
 import Municipalidad from "./pages/municipalidad/municipalidad.js";
@@ -17,8 +17,12 @@ import Documentos from "./pages/tipos-documentos/documentos.js";
 import PersonalAdm from "./pages/personalAdm/personalAdm.js";
 import Areas from "./pages/area/area.js";
 
-const PrivateRoute = ({ element }) => {
-  return localStorage.getItem("auth") === "true" ? element : <Navigate to="/login" />;
+// PrivateRoute para verificar autenticación
+const PrivateRoute = ({ children }) => {
+  if (localStorage.getItem("auth") !== "true") {
+    return <Navigate to="/login" />;
+  }
+  return children;
 };
 
 function App() {
@@ -27,21 +31,21 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/login_user" element={<LoginUser />} /> {/* Cambia esto */}
+        <Route path="/login_user" element={<LoginUser />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/menu" element={<PrivateRoute element={<Menu />} />} />
-        <Route path="/municipalidad" element={<PrivateRoute element={<Municipalidad />} />} />
-        <Route path="/horarios" element={<PrivateRoute element={<Horario />} />} />
-        <Route path="/deposito" element={<PrivateRoute element={<Deposito />} />} />
-        <Route path="/gruas" element={<PrivateRoute element={<Gruas />} />} />
-        <Route path="/empleados" element={<PrivateRoute element={<Empleados />} />} />
-        <Route path="/fiscalizacion" element={<PrivateRoute element={<Fiscalizacion />} />} />
-        <Route path="/cajas" element={<PrivateRoute element={<Cajas />} />} />
-        <Route path="/sistema" element={<PrivateRoute element={<Sistema />} />} />
-        <Route path="/infracciones" element={<PrivateRoute element={<Infracciones />} />} />
-        <Route path="/areas" element={<PrivateRoute element={<Areas />} />} />
-        <Route path="/documentos" element={<PrivateRoute element={<Documentos />} />} />
-        <Route path="/personalAdm" element={<PrivateRoute element={<PersonalAdm />} />} />
+        <Route path="/menu" element={<PrivateRoute><Menu /></PrivateRoute>} />
+        <Route path="/municipalidad" element={<PrivateRoute><Municipalidad /></PrivateRoute>} />
+        <Route path="/horarios" element={<PrivateRoute><Horario /></PrivateRoute>} />
+        <Route path="/depositos" element={<PrivateRoute><Deposito /></PrivateRoute>} />
+        <Route path="/gruas" element={<PrivateRoute><Gruas /></PrivateRoute>} />
+        <Route path="/empleados" element={<PrivateRoute><Empleados /></PrivateRoute>} />
+        <Route path="/fiscalizacion" element={<PrivateRoute><Fiscalizacion /></PrivateRoute>} />
+        <Route path="/cajas" element={<PrivateRoute><Cajas /></PrivateRoute>} />
+        <Route path="/sistema" element={<PrivateRoute><Sistema /></PrivateRoute>} />
+        <Route path="/infracciones" element={<PrivateRoute><Infracciones /></PrivateRoute>} />
+        <Route path="/areas" element={<PrivateRoute><Areas /></PrivateRoute>} />
+        <Route path="/documentos" element={<PrivateRoute><Documentos /></PrivateRoute>} />
+        <Route path="/personalAdm" element={<PrivateRoute><PersonalAdm /></PrivateRoute>} />
       </Routes>
     </Router>
   );

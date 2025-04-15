@@ -13,10 +13,35 @@ import {
 } from "@mui/material";
 import { Work } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const LoginUser = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
 
+  // Función para manejar el inicio de sesión
+  const handleLogin = async () => {
+    try {
+      // Realizando la solicitud a la API para la autenticación
+      const response = await axios.post('http://localhost:8080/api/usuarios/login/authenticate', {
+        email,
+        contraseña: password,
+      });
+
+      if (response.status === 200) {
+        // Manejar la respuesta si el login es exitoso
+        // Puedes guardar un token o algún dato en el localStorage o state global si es necesario
+        console.log('Inicio de sesión exitoso:', response.data);
+        navigate('/dashboard');  // Redirige a una página después de login
+      }
+    } catch (error) {
+      console.error('Error al iniciar sesión:', error);
+      alert('Credenciales incorrectas');  // Puedes mejorar la alerta con un mensaje de error más detallado
+    }
+  };
+
+  // Función para manejar el login de empleado (redirigir a la página de login de empleado)
   const handleEmployeeLogin = () => {
     navigate("/login");
   };
@@ -44,22 +69,43 @@ const LoginUser = () => {
             <Typography variant="h5" gutterBottom>
               Inicia Sesión
             </Typography>
-            <TextField fullWidth margin="normal" label="Email" variant="outlined" />
-            <TextField fullWidth margin="normal" label="Contraseña" variant="outlined" type="password" />
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Email"
+              variant="outlined"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}  // Vincula el estado del email
+            />
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Contraseña"
+              variant="outlined"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}  // Vincula el estado de la contraseña
+            />
             
             <FormControlLabel control={<Checkbox />} label="Recordar Usuario" />
             
-            <Button fullWidth variant="contained" color="primary" sx={{ mt: 2 }}>
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              sx={{ mt: 2 }}
+              onClick={handleLogin}  // Llama a la función de login al hacer clic
+            >
               Ingresar
             </Button>
             
-            <Button 
-              fullWidth 
-              variant="outlined" 
-              color="secondary" 
+            <Button
+              fullWidth
+              variant="outlined"
+              color="secondary"
               sx={{ mt: 2 }}
               startIcon={<Work />}
-              onClick={handleEmployeeLogin}
+              onClick={handleEmployeeLogin}  // Redirige al login de empleado
             >
               Ingresar como Empleado
             </Button>
