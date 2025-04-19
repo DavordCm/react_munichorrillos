@@ -1,3 +1,4 @@
+/* Estilo del menú */
 .menu {
   background-color: #004080;
 }
@@ -38,4 +39,21 @@
 .MuiMenuItem-root:hover {
   background: #ffcc00;
   color: #004080;
+}
+
+/* Estilo del mapa */
+/* Estilo para el mapa */
+.map-container {
+  position: fixed; /* Posiciona el mapa de manera fija */
+  bottom: 0; /* Lo coloca en la parte inferior */
+  left: 0;
+  width: 100%; /* Ancho completo */
+  height: 300px; /* Altura del mapa (ajústalo según sea necesario) */
+  z-index: 1000; /* Asegura que el mapa esté encima de otros elementos */
+}
+
+iframe {
+  width: 100%;
+  height: 100%; /* Ajusta el mapa a la altura del contenedor */
+  border: none; /* Eliminar borde del iframe */
 }

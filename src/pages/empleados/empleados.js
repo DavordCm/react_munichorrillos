@@ -1,20 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   Button, Table, TableBody, TableCell, TableContainer, TableHead,
   TableRow, Paper, Typography, Box, Dialog, DialogActions, DialogContent,
-  DialogTitle, TextField
+  DialogTitle, TextField, Checkbox, FormControlLabel, CircularProgress
 } from "@mui/material";
 import { ArrowBack, Add } from "@mui/icons-material";
-import "../../styles/empleado.css";
-
 
 const Empleados = () => {
-  const [empleados, setEmpleados] = useState([
-    { id: 1, nombre: "Juan", apellidoPaterno: "Pérez", apellidoMaterno: "Gómez", email: "juan@example.com", telefono: "123456789", direccion: "Calle 123", fechaIngreso: "2024-01-10", activo: true, estadoCivil: "Soltero", nroIdentidad: "12345678", tipoDocumento: "DNI" },
-    { id: 2, nombre: "María", apellidoPaterno: "Rodríguez", apellidoMaterno: "Fernández", email: "maria@example.com", telefono: "987654321", direccion: "Avenida 456", fechaIngreso: "2023-07-20", activo: false, estadoCivil: "Casada", nroIdentidad: "87654321", tipoDocumento: "DNI" },
-  ]);
+  const API_URL = "http://localhost:8080/api/personal";
 
+  const [empleados, setEmpleados] = useState([]);
   const [open, setOpen] = useState(false);
+  const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
+  const [empleadoToDelete, setEmpleadoToDelete] = useState(null);
   const [editingEmpleado, setEditingEmpleado] = useState(null);
   const [formData, setFormData] = useState({
     id: "",
@@ -30,14 +29,31 @@ const Empleados = () => {
     nroIdentidad: "",
     tipoDocumento: ""
   });
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  // Manejar cambios en los inputs
+  const fetchEmpleados = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(API_URL);
+      setEmpleados(response.data);
+      setErrorMessage(null);
+    } catch (error) {
+      setErrorMessage("Hubo un error al cargar los empleados.");
+      console.error("Error al cargar empleados:", error);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchEmpleados();
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Abrir modal para agregar o editar
   const handleOpen = (empleado = null) => {
     if (empleado) {
       setEditingEmpleado(empleado);
@@ -45,7 +61,7 @@ const Empleados = () => {
     } else {
       setEditingEmpleado(null);
       setFormData({
-        id: empleados.length + 1,
+        id: "",
         nombre: "",
         apellidoPaterno: "",
         apellidoMaterno: "",
@@ -62,135 +78,156 @@ const Empleados = () => {
     setOpen(true);
   };
 
-  // Guardar nuevo empleado o editar existente
-  const handleSave = () => {
-    if (editingEmpleado) {
-      setEmpleados(
-        empleados.map((emp) => (emp.id === editingEmpleado.id ? formData : emp))
-      );
-    } else {
-      setEmpleados([...empleados, formData]);
+  const handleSave = async () => {
+    if (!validateForm()) return;
+
+    try {
+      if (editingEmpleado) {
+        await axios.put(`${API_URL}/${formData.id}`, formData);
+      } else {
+        await axios.post(API_URL, formData);
+      }
+      setOpen(false);
+      fetchEmpleados();
+    } catch (error) {
+      console.error("Error al guardar:", error);
+      setErrorMessage("Hubo un error al guardar los datos.");
     }
-    setOpen(false);
   };
 
-  const handleDelete = (id) => {
-    setEmpleados(empleados.filter((empleado) => empleado.id !== id));
+  const validateForm = () => {
+    if (!formData.nombre || !formData.apellidoPaterno) {
+      alert("Por favor, complete todos los campos obligatorios.");
+      return false;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (formData.email && !emailRegex.test(formData.email)) {
+      alert("Por favor, ingrese un correo electrónico válido.");
+      return false;
+    }
+    return true;
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`${API_URL}/${id}`);
+      fetchEmpleados();
+    } catch (error) {
+      console.error("Error al eliminar:", error);
+      setErrorMessage("Hubo un error al eliminar el empleado.");
+    }
+  };
+
+  const handleDeleteConfirm = (empleadoId) => {
+    setEmpleadoToDelete(empleadoId);
+    setOpenConfirmDelete(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (empleadoToDelete) {
+      await handleDelete(empleadoToDelete);
+      setEmpleadoToDelete(null);
+      setOpenConfirmDelete(false);
+    }
   };
 
   return (
     <div className="empleados-container">
-      <Typography variant="h4" gutterBottom className="empleados-header">
+      <Typography variant="h4" gutterBottom>
         Gestión de Empleados
       </Typography>
 
-      {/* Botones de Añadir y Regresar */}
       <Box display="flex" justifyContent="space-between" mb={2}>
-        <Button 
-          variant="contained" 
-          color="primary" 
-          startIcon={<Add />}
-          onClick={() => handleOpen()} // Abre el modal para añadir empleado
-        >
+        <Button variant="contained" color="primary" startIcon={<Add />} onClick={() => handleOpen()}>
           Añadir Empleado
         </Button>
-
-        <Button 
-          startIcon={<ArrowBack />} 
-          onClick={() => window.history.back()}
-        >
+        <Button startIcon={<ArrowBack />} onClick={() => window.history.back()}>
           Regresar
         </Button>
       </Box>
 
-      {/* Tabla de empleados */}
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>Nombre</TableCell>
-              <TableCell>Apellido Paterno</TableCell>
-              <TableCell>Apellido Materno</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Teléfono</TableCell>
-              <TableCell>Acciones</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {empleados.map((empleado) => (
-              <TableRow key={empleado.id}>
-                <TableCell>{empleado.id}</TableCell>
-                <TableCell>{empleado.nombre}</TableCell>
-                <TableCell>{empleado.apellidoPaterno}</TableCell>
-                <TableCell>{empleado.apellidoMaterno}</TableCell>
-                <TableCell>{empleado.email}</TableCell>
-                <TableCell>{empleado.telefono}</TableCell>
-                <TableCell>
-                  <Button 
-                    color="secondary" 
-                    onClick={() => handleOpen(empleado)} // Abre modal para editar
-                  >
-                    Editar
-                  </Button>
-                  <Button 
-                    color="error" 
-                    onClick={() => handleDelete(empleado.id)}
-                  >
-                    Eliminar
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {errorMessage && <Typography color="error">{errorMessage}</Typography>}
 
-      {/* Modal para añadir/editar empleado */}
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell>Nombre</TableCell>
+                <TableCell>Apellido Paterno</TableCell>
+                <TableCell>Apellido Materno</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Teléfono</TableCell>
+                <TableCell>Estado Civil</TableCell>
+                <TableCell>Activo</TableCell>
+                <TableCell>Acciones</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+  {empleados.map((empleado) => (
+    <TableRow key={empleado.id_Empleado.id_Empleado}> {/* Asegúrate de usar el ID correcto */}
+      <TableCell>{empleado.id_Empleado.id_Empleado}</TableCell> {/* Usando el ID correcto */}
+      <TableCell>{empleado.id_Empleado.nom_Empleado}</TableCell>
+      <TableCell>{empleado.id_Empleado.apellidoP}</TableCell>
+      <TableCell>{empleado.id_Empleado.apellidoM}</TableCell>
+      <TableCell>{empleado.id_Empleado.email}</TableCell>
+      <TableCell>{empleado.id_Empleado.telefono}</TableCell>
+      <TableCell>{empleado.id_Empleado.estadoCivil}</TableCell>
+      <TableCell>{empleado.id_Empleado.activo ? "Sí" : "No"}</TableCell>
+      <TableCell>
+        <Button color="secondary" onClick={() => handleOpen(empleado)}>
+          Editar
+        </Button>
+        <Button color="error" onClick={() => handleDeleteConfirm(empleado.id_Empleado.id_Empleado)}>
+          Eliminar
+        </Button>
+      </TableCell>
+    </TableRow>
+  ))}
+</TableBody>
+
+          </Table>
+        </TableContainer>
+      )}
+
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>{editingEmpleado ? "Editar Empleado" : "Añadir Empleado"}</DialogTitle>
         <DialogContent>
-          <TextField 
-            fullWidth margin="dense" label="Nombre" name="nombre" 
-            value={formData.nombre} onChange={handleChange} 
-          />
-          <TextField 
-            fullWidth margin="dense" label="Apellido Paterno" name="apellidoPaterno" 
-            value={formData.apellidoPaterno} onChange={handleChange} 
-          />
-          <TextField 
-            fullWidth margin="dense" label="Apellido Materno" name="apellidoMaterno" 
-            value={formData.apellidoMaterno} onChange={handleChange} 
-          />
-          <TextField 
-            fullWidth margin="dense" label="Email" name="email" 
-            value={formData.email} onChange={handleChange} 
-          />
-          <TextField 
-            fullWidth margin="dense" label="Teléfono" name="telefono" 
-            value={formData.telefono} onChange={handleChange} 
-          />
-          <TextField 
-            fullWidth margin="dense" label="Dirección" name="direccion" 
-            value={formData.direccion} onChange={handleChange} 
-          />
-          <TextField 
-            fullWidth margin="dense" label="Fecha Ingreso" name="fechaIngreso" 
-            value={formData.fechaIngreso} onChange={handleChange} type="date"
-          />
-          <TextField 
-            fullWidth margin="dense" label="Número de Identidad" name="nroIdentidad" 
-            value={formData.nroIdentidad} onChange={handleChange} 
-          />
-          <TextField 
-            fullWidth margin="dense" label="Tipo de Documento" name="tipoDocumento" 
-            value={formData.tipoDocumento} onChange={handleChange} 
+          <TextField fullWidth margin="dense" label="Nombre" name="nombre" value={formData.nombre} onChange={handleChange} />
+          <TextField fullWidth margin="dense" label="Apellido Paterno" name="apellidoPaterno" value={formData.apellidoPaterno} onChange={handleChange} />
+          <TextField fullWidth margin="dense" label="Apellido Materno" name="apellidoMaterno" value={formData.apellidoMaterno} onChange={handleChange} />
+          <TextField fullWidth margin="dense" label="Email" name="email" value={formData.email} onChange={handleChange} />
+          <TextField fullWidth margin="dense" label="Teléfono" name="telefono" value={formData.telefono} onChange={handleChange} />
+          <TextField fullWidth margin="dense" label="Dirección" name="direccion" value={formData.direccion} onChange={handleChange} />
+          <TextField fullWidth margin="dense" label="Fecha Ingreso" name="fechaIngreso" type="date" InputLabelProps={{ shrink: true }} value={formData.fechaIngreso} onChange={handleChange} />
+          <TextField fullWidth margin="dense" label="Número de Identidad" name="nroIdentidad" value={formData.nroIdentidad} onChange={handleChange} />
+          <TextField fullWidth margin="dense" label="Tipo de Documento" name="tipoDocumento" value={formData.tipoDocumento} onChange={handleChange} />
+          <TextField fullWidth margin="dense" label="Estado Civil" name="estadoCivil" value={formData.estadoCivil} onChange={handleChange} />
+          <FormControlLabel
+            control={<Checkbox checked={formData.activo} onChange={(e) => setFormData({ ...formData, activo: e.target.checked })} name="activo" />}
+            label="¿Activo?"
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Cancelar</Button>
           <Button onClick={handleSave} color="primary">
             {editingEmpleado ? "Actualizar" : "Guardar"}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={openConfirmDelete} onClose={() => setOpenConfirmDelete(false)}>
+        <DialogTitle>Confirmar Eliminación</DialogTitle>
+        <DialogContent>
+          <Typography>¿Estás seguro de que quieres eliminar este empleado?</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenConfirmDelete(false)}>Cancelar</Button>
+          <Button onClick={handleConfirmDelete} color="error">
+            Eliminar
           </Button>
         </DialogActions>
       </Dialog>

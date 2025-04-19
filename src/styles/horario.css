@@ -1,74 +1,72 @@
-.container {
-  text-align: center;
-  padding: 15px; /* Reducido el padding */
+.horario-container {
+  padding: 20px;
+  font-family: sans-serif;
+  background-color: #f6f6f6;
 }
 
-h2 {
-  margin-bottom: 15px; /* Menos espacio debajo del título */
-}
-
-.tabla {
-  width: 90%; /* Reducir el ancho */
+.horario-tabla {
+  width: 100%;
   border-collapse: collapse;
-  margin-bottom: 10px; /* Menos espacio debajo */
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
-.tabla th, .tabla td {
-  border: 1px solid #ddd;
-  padding: 6px; /* Reducir el padding */
+.horario-tabla th, .horario-tabla td {
   text-align: center;
-  font-size: 13px; /* Reducir el tamaño de fuente */
+  padding: 10px;
+  font-size: 14px;
 }
 
-.tabla th {
-  background-color: #f4f4f4;
+.horario-tabla thead {
+  background-color: #eaeaea;
 }
 
-.btn {
-  padding: 6px 10px; /* Reducido el padding */
-  margin: 3px; /* Menos espacio entre botones */
-  border: none;
-  cursor: pointer;
-  border-radius: 4px; /* Menos curvatura */
-  font-size: 12px; /* Reducir el tamaño de fuente */
-}
-
-.btn.editar {
-  background-color: #ffcc00;
-  color: black;
-}
-
-.btn.eliminar {
-  background-color: #ff4d4d;
-  color: white;
-}
-
-.btn.agregar {
-  background-color: #4CAF50;
-  border-radius: 4px;
-  color: white;
-  padding: 5px 10px;
-  min-width: 100px; /* Reducido el ancho mínimo */
-  font-size: 14px; /* Tamaño de fuente más pequeño */
-}
-
-.btn-flecha {
-  background: none;
-  border: none;
-  font-size: 0.9rem; /* Reducido el tamaño de fuente */
-  cursor: pointer;
-  margin-right: 3px;
-  color: #333;
-  padding: 3px 6px; /* Reducido el padding */
-  width: 30px; /* Hacer el botón más pequeño */
+.circulo {
+  width: 30px;
   height: 30px;
+  margin: 0 auto 5px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
+  font-weight: bold;
+  color: #555;
 }
 
-.btn-flecha:hover {
-  color: #000;
-  background: rgba(0, 0, 0, 0.1);
+.circulo.activo {
+  background-color: #b4ccfd;
+  color: #1a237e;
+}
+
+.nombre-dia {
+  font-size: 12px;
+  color: #333;
+}
+
+.hora {
+  font-weight: bold;
+  color: #333;
+}
+
+.btn {
+  margin: 2px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn.editar {
+  background-color: #ffc107;
+  color: #fff;
+}
+
+.btn.eliminar {
+  background-color: #f44336;
+  color: #fff;
 }

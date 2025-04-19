@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { 
-  Button, TextField, Box, Typography, Modal, InputAdornment, IconButton 
+import {
+  Button, TextField, Box, Typography, Modal,
+  InputAdornment, IconButton
 } from "@mui/material";
-import { motion } from "framer-motion";
-import { 
-  AccountCircle, Lock, Visibility, VisibilityOff, Person 
+import {
+  AccountCircle, Lock, Visibility, VisibilityOff, Person
 } from "@mui/icons-material";
+import { motion } from "framer-motion";
+import axios from "axios";
+import SHA256 from "crypto-js/sha256";
 import "../components/login.css";
 
 const Login = () => {
@@ -18,56 +21,69 @@ const Login = () => {
   const [modalContent, setModalContent] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => { // Verifica si el usuario ya está autenticado y lo redirige al menú
+  useEffect(() => {
     if (localStorage.getItem("auth") === "true") {
       navigate("/menu");
     }
   }, [navigate]);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (user === "Admin" && password === "1234") {
-      localStorage.setItem("auth", "true");
-      setIsValid(true);
-      setTimeout(() => navigate("/menu"), 1000);
-    } else {
+
+    try {
+      const response = await axios.get("http://localhost:8080/api/personal");
+      const data = response.data;
+
+      const userFound = data.find((item) =>
+        item.usuarioAcceso === user &&
+        item.contraseña === SHA256(password).toString()
+      );
+
+      if (userFound) {
+        localStorage.setItem("auth", "true");
+        localStorage.setItem("username", userFound.usuarioAcceso);
+        setIsValid(true);
+        setTimeout(() => navigate("/menu"), 1000);
+      } else {
+        setIsValid(false);
+      }
+    } catch (error) {
+      console.error("Error al hacer login:", error);
       setIsValid(false);
     }
   };
 
-  const handleRegister = () => {  //Redirige al usuario a la página de registro
-
+  const handleRegister = () => {
     navigate("/register");
   };
 
-  const handleUserLogin = () => { //Redirige a la opción de inicio de sesión como usuario estándar
+  const handleUserLogin = () => {
     navigate("/login_user");
   };
 
-  const openModal = (content) => {  //Muestra un modal con información adicional
-
+  const openModal = (content) => {
     setModalContent(content);
     setModalOpen(true);
   };
 
   return (
     <Box className="login-container">
-      <motion.img 
-        src="/MuniChorrillos.png" 
-        alt="MuniChorrillos Logo" 
-        className="logo" 
-        initial={{ opacity: 0 }} 
-        animate={{ opacity: 1 }} 
-        transition={{ duration: 1 }} 
+      <motion.img
+        src="/MuniChorrillos.png"
+        alt="MuniChorrillos Logo"
+        className="logo"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
       />
       <Typography variant="h5" gutterBottom>Iniciar Sesión</Typography>
       <form onSubmit={handleLogin}>
-        <TextField 
-          fullWidth 
-          label="Usuario" 
-          variant="outlined" 
-          margin="normal" 
-          value={user} 
+        <TextField
+          fullWidth
+          label="Usuario"
+          variant="outlined"
+          margin="normal"
+          value={user}
           onChange={(e) => setUser(e.target.value)}
           InputProps={{
             startAdornment: (
@@ -77,13 +93,13 @@ const Login = () => {
             ),
           }}
         />
-        <TextField 
-          fullWidth 
-          type={showPassword ? "text" : "password"} 
-          label="Contraseña" 
-          variant="outlined" 
-          margin="normal" 
-          value={password} 
+        <TextField
+          fullWidth
+          type={showPassword ? "text" : "password"}
+          label="Contraseña"
+          variant="outlined"
+          margin="normal"
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
           InputProps={{
             startAdornment: (
@@ -106,38 +122,47 @@ const Login = () => {
         <Typography className="link" onClick={handleRegister}>
           ¿No tienes una cuenta? Regístrate
         </Typography>
-        <Button fullWidth variant="contained" color="primary" type="submit" className="login-button">
+        <Button
+          fullWidth
+          variant="contained"
+          color="primary"
+          type="submit"
+          className="login-button"
+        >
           Ingresar
         </Button>
-        
-        {/* Botón con icono para "Ingresar como Usuario" */}
-        <Button 
-          fullWidth 
-          variant="outlined" 
-          color="secondary" 
-          onClick={handleUserLogin} 
-          className="login-user-button" 
-          style={{ marginTop: "10px", display: "flex", alignItems: "center", justifyContent: "center" }}
+
+        <Button
+          fullWidth
+          variant="outlined"
+          color="secondary"
+          onClick={handleUserLogin}
+          className="login-user-button"
+          style={{
+            marginTop: "10px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
           <Person style={{ marginRight: 8 }} />
           Ingresar como Usuario
         </Button>
-
       </form>
-      
+
       {isValid !== null && (
         <Typography className={isValid ? "success-message" : "error-message"}>
           {isValid ? "✅ Acceso Correcto. Redirigiendo..." : "❌ Usuario o Contraseña Incorrectos"}
         </Typography>
       )}
-      
+
       <Box className="terms-box">
         <Typography variant="body2">
-          Al iniciar sesión, aceptas nuestros
+          Al iniciar sesión, aceptas nuestros{" "}
           <Typography component="span" className="link" onClick={() => openModal("Términos y Condiciones")}>
             Términos y Condiciones
-          </Typography>
-          y nuestra
+          </Typography>{" "}
+          y nuestra{" "}
           <Typography component="span" className="link" onClick={() => openModal("Política de Privacidad")}>
             Política de Privacidad
           </Typography>.

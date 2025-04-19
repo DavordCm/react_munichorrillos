@@ -117,11 +117,12 @@ const LoginUser = () => {
             </Box>
 
             <Typography variant="body2" mt={2}>
-              No tienes cuenta?{" "}
-              <Link href="#" color="error">
-                Regístrate
-              </Link>
-            </Typography>
+  No tienes cuenta?{" "}
+  <Link component="button" color="error" onClick={() => navigate("/registro")}>
+    Regístrate
+  </Link>
+</Typography>
+
           </Paper>
         </Grid>
       </Grid>
