@@ -8,7 +8,7 @@ import {
 import { ArrowBack, Add } from "@mui/icons-material";
 
 const Empleados = () => {
-  const API_URL = "http://localhost:8080/api/personal";
+  const API_URL = "http://localhost:8081/api/personal";
 
   const [empleados, setEmpleados] = useState([]);
   const [open, setOpen] = useState(false);

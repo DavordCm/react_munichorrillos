@@ -40,7 +40,7 @@ function Deposito() {
   const fetchDepositos = () => {
     setLoading(true);
     axios
-      .get("http://localhost:8080/api/depositos")
+      .get("http://localhost:8081/api/depositos")
       .then((response) => {
         setDepositos(response.data);
         setLoading(false);
@@ -55,7 +55,7 @@ function Deposito() {
   const handleDelete = (id) => {
     if (window.confirm("¿Estás seguro de eliminar este depósito?")) {
       axios
-        .delete(`http://localhost:8080/api/depositos/${id}`)
+        .delete(`http://localhost:8081/api/depositos/${id}`)
         .then(() => {
           fetchDepositos(); // recargar lista
         })
@@ -76,7 +76,7 @@ function Deposito() {
   // Guardar cambios
   const handleEditSave = () => {
     axios
-      .put(`http://localhost:8080/api/depositos/${depositoEdit.id_Deposito}`, depositoEdit)
+      .put(`http://localhost:8081/api/depositos/${depositoEdit.id_Deposito}`, depositoEdit)
       .then(() => {
         setOpenEdit(false);
         fetchDepositos(); // recargar lista

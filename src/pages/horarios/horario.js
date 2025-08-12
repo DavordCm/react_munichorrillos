@@ -35,7 +35,7 @@ const Horario = () => {
   };
 
   useEffect(() => {
-    axios.get("http://localhost:8080/api/horarios")
+    axios.get("http://localhost:8081/api/horarios")
       .then(response => {
         const datosTransformados = transformarDatos(response.data);
         setHorarios(datosTransformados);
@@ -56,7 +56,7 @@ const Horario = () => {
 
   const actualizarHorario = async () => {
     try {
-      await axios.put(`http://localhost:8080/api/horarios/${horarioEdicion.id}`, horarioEdicion);
+      await axios.put(`http://localhost:8081/api/horarios/${horarioEdicion.id}`, horarioEdicion);
       alert('Horario actualizado exitosamente');
       setHorarioEdicion(null); // Limpiar el estado de edición
       navigate("/horarios"); // Redirigir a la lista de horarios o la ruta deseada

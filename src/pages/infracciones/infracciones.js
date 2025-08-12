@@ -35,7 +35,7 @@ const Infracciones = () => {
   const [formData, setFormData] = useState({ nom_Infraccion: "", descripcion: "", resolucion: "", rango: "", monto: "" });
   const [editData, setEditData] = useState(null);
 
-  const API_URL = "http://localhost:8080/api/infracciones";
+  const API_URL = "http://localhost:8081/api/infracciones";
 
   // Cargar infracciones
   useEffect(() => {

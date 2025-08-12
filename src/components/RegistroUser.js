@@ -31,7 +31,7 @@ const RegistroUser = () => {
   const handleRegistro = async () => {
     try {
       // Realiza el POST a la URL de registro
-      await axios.post('http://localhost:8080/api/usuarios/registrar', formData);
+      await axios.post('http://localhost:8081/api/usuarios/registrar', formData);
       alert('Usuario registrado exitosamente. Se ha enviado un correo de confirmación.');
       navigate('/login-user'); // Redirige al login tras registro exitoso
     } catch (error) {

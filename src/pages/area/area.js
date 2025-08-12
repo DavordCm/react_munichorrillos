@@ -19,7 +19,7 @@ import {
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import "../../styles/area.css";
 
-const API_URL = "http://localhost:8080/api/areas"; // URL de la API
+const API_URL = "http://localhost:8081/api/areas"; // URL de la API
 
 const Area = () => {
   const navigate = useNavigate();
